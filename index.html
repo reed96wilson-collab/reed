@@ -10,6 +10,33 @@
         
         body {
             font-family: 'Space Mono', monospace;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Scanline effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.03),
+                rgba(0, 0, 0, 0.03) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1000;
+            animation: scanlines 8s linear infinite;
+        }
+        
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(10px); }
         }
         
         html {
@@ -32,6 +59,12 @@
         
         .retro-shadow {
             box-shadow: 8px 8px 0px #000;
+            transition: all 0.3s ease;
+        }
+        
+        .retro-shadow:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 12px 12px 0px #000;
         }
         
         .retro-button {
@@ -42,6 +75,177 @@
         .retro-button:hover {
             transform: translate(4px, 4px);
             box-shadow: 0px 0px 0px #000;
+        }
+        
+        /* Glitch effect */
+        .glitch {
+            position: relative;
+            animation: glitch-anim 3s infinite;
+        }
+        
+        @keyframes glitch-anim {
+            0%, 98% { 
+                clip-path: inset(0 0 0 0);
+            }
+            98.5% { 
+                clip-path: inset(50% 0 30% 0);
+                transform: translate(-3px, 2px);
+            }
+            99% { 
+                clip-path: inset(30% 0 50% 0);
+                transform: translate(3px, -2px);
+            }
+            99.5% {
+                clip-path: inset(0 0 0 0);
+                transform: translate(0);
+            }
+        }
+        
+        /* Typewriter effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid black;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+            display: inline-block;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: black; }
+        }
+        
+        /* Fade in on scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* SVG animations */
+        svg {
+            transition: all 0.3s ease;
+        }
+        
+        svg:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        /* Project card hover effects */
+        .project-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-card::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, transparent, rgba(0,0,0,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .project-card:hover::before {
+            opacity: 1;
+            animation: shine 1.5s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        /* Floating animation */
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Pulse animation for icons */
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        /* Slide in from left */
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideInLeft 0.6s ease forwards;
+        }
+        
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Slide in from right */
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            animation: slideInRight 0.6s ease forwards;
+        }
+        
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Stagger animation delays */
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        
+        /* Nav hover glitch */
+        nav a:hover {
+            animation: nav-glitch 0.3s;
+        }
+        
+        @keyframes nav-glitch {
+            0%, 100% { transform: translate(0); }
+            25% { transform: translate(-2px, 2px); }
+            50% { transform: translate(2px, -2px); }
+            75% { transform: translate(-1px, -1px); }
+        }
+        
+        /* CRT flicker */
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.98; }
+        }
+        
+        body {
+            animation: flicker 0.15s infinite;
         }
     </style>
 </head>
@@ -64,12 +268,12 @@
     <!-- Hero Section -->
     <section id="home" class="min-h-screen flex items-center justify-center section-padding">
         <div class="max-w-4xl mx-auto text-center">
-            <div class="retro-border retro-shadow bg-white p-12 mb-8">
-                <h1 class="text-5xl md:text-6xl font-bold mb-4">REED WILSON</h1>
+            <div class="retro-border retro-shadow bg-white p-12 mb-8 float">
+                <h1 class="text-5xl md:text-6xl font-bold mb-4 glitch">REED WILSON</h1>
                 <div class="border-t-2 border-b-2 border-black py-4 my-6">
-                    <p class="text-lg md:text-xl">OPERATIONS LEADER → AI SAFETY</p>
+                    <p class="text-lg md:text-xl typewriter">OPERATIONS LEADER → AI SAFETY</p>
                 </div>
-                <p class="text-sm mb-8 max-w-2xl mx-auto leading-relaxed">
+                <p class="text-sm mb-8 max-w-2xl mx-auto leading-relaxed fade-in">
                     Building systems in high-growth startups. Now focused on ensuring AI benefits humanity through coordination, operations, and good governance.
                 </p>
             </div>
@@ -114,8 +318,8 @@
             <h2 class="text-3xl font-bold mb-8 pb-2 border-b-4 border-black inline-block">CORE_SKILLS</h2>
             
             <div class="grid md:grid-cols-3 gap-6 mt-8 mb-12">
-                <div class="retro-border bg-white p-6 retro-shadow">
-                    <svg class="w-12 h-12 mb-3" viewBox="0 0 100 100">
+                <div class="retro-border bg-white p-6 retro-shadow slide-in-left delay-1">
+                    <svg class="w-12 h-12 mb-3 pulse" viewBox="0 0 100 100">
                         <circle cx="50" cy="50" r="35" fill="none" stroke="black" stroke-width="4"/>
                         <circle cx="50" cy="15" r="6" fill="black"/>
                         <circle cx="50" cy="85" r="6" fill="black"/>
@@ -129,8 +333,8 @@
                     <h3 class="text-lg font-bold mb-2">OPERATIONS</h3>
                     <p class="text-xs">Process building, project management, documentation, stakeholder coordination</p>
                 </div>
-                <div class="retro-border bg-white p-6 retro-shadow">
-                    <svg class="w-12 h-12 mb-3" viewBox="0 0 100 100">
+                <div class="retro-border bg-white p-6 retro-shadow slide-in-left delay-2">
+                    <svg class="w-12 h-12 mb-3 pulse" viewBox="0 0 100 100">
                         <rect x="15" y="20" width="25" height="35" fill="none" stroke="black" stroke-width="4"/>
                         <circle cx="27.5" cy="30" r="5" fill="black"/>
                         <rect x="60" y="20" width="25" height="35" fill="none" stroke="black" stroke-width="4"/>
@@ -141,8 +345,8 @@
                     <h3 class="text-lg font-bold mb-2">LEADERSHIP</h3>
                     <p class="text-xs">Cross-functional teams, decision-making, communication, collaboration</p>
                 </div>
-                <div class="retro-border bg-white p-6 retro-shadow">
-                    <svg class="w-12 h-12 mb-3" viewBox="0 0 100 100">
+                <div class="retro-border bg-white p-6 retro-shadow slide-in-left delay-3">
+                    <svg class="w-12 h-12 mb-3 pulse" viewBox="0 0 100 100">
                         <circle cx="50" cy="50" r="40" fill="none" stroke="black" stroke-width="4"/>
                         <circle cx="50" cy="50" r="25" fill="none" stroke="black" stroke-width="4"/>
                         <circle cx="50" cy="50" r="10" fill="black"/>
@@ -196,7 +400,7 @@
         <div class="max-w-5xl mx-auto">
             <h2 class="text-3xl font-bold mb-8 pb-2 border-b-4 border-black inline-block">PROJECTS</h2>
             <div class="grid md:grid-cols-2 gap-6 mt-8">
-                <div class="retro-border bg-white retro-shadow">
+                <div class="retro-border bg-white retro-shadow project-card fade-in delay-1">
                     <div class="bg-black p-6 text-center h-48 flex items-center justify-center">
                         <svg class="w-24 h-24" viewBox="0 0 100 100">
                             <polygon points="50,10 30,35 70,35" fill="none" stroke="rgb(255, 251, 235)" stroke-width="3"/>
@@ -218,7 +422,7 @@
                     </div>
                 </div>
                 
-                <div class="retro-border bg-white retro-shadow">
+                <div class="retro-border bg-white retro-shadow project-card fade-in delay-2">
                     <div class="bg-black p-6 text-center h-48 flex items-center justify-center">
                         <svg class="w-24 h-24" viewBox="0 0 100 100">
                             <circle cx="50" cy="40" r="20" fill="none" stroke="rgb(255, 251, 235)" stroke-width="3"/>
